@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.*;
 
 import android.widget.Button;
 import android.widget.TextView;
+import com.google.firebase.database.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ import java.util.Set;
  * Created by stephenvickers on 10/4/16.
  */
 public class QuestionFragment extends Fragment {
+
+    private static final String TAG = "MainActivity";
 
     /**
      * Variable to hold a {@link Questions} for the Fragment
@@ -83,25 +87,49 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Questions q1 = new Questions("What is the rule of four?");
-        q1.pushAnswer("That four justices must decide the opinion of a case.");
-        q1.pushAnswer("Four justice must decide to take a case.");
-        q1.pushAnswer("There needs to be four parties in every case.");
-        q1.pushAnswer("There must be four constitutional issues.");
-        q1.setCorrectAnswer("Four justice must decide to take a case.");
+//        Questions q1 = new Questions("What is the rule of four?");
+//        q1.pushAnswer("That four justices must decide the opinion of a case.");
+//        q1.pushAnswer("Four justice must decide to take a case.");
+//        q1.pushAnswer("There needs to be four parties in every case.");
+//        q1.pushAnswer("There must be four constitutional issues.");
+//        q1.setCorrectAnswer("Four justice must decide to take a case.");
+//
+//        this.mQuestionsSet.add(q1);
+//
+//        Questions q2 = new Questions("What is writ of certiorari?");
+//        q2.pushAnswer("A change in administrative law by the court");
+//        q2.pushAnswer("A demand by the court to end an unconstitutional government action.");
+//        q2.pushAnswer("A request from the Supreme Court to a lower court for records of a case.");
+//        q2.pushAnswer("A stay that prevents the execution of a prisoner.");
+//        q2.setCorrectAnswer("A request from the Supreme Court to a lower court for records of a case.");
+//
+//        this.mQuestionsSet.add(q2);
+//
+//        this.listIndex = 1;
 
-        this.mQuestionsSet.add(q1);
+        FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = dataBase.getReference();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
 
-        Questions q2 = new Questions("What is writ of certiorari?");
-        q2.pushAnswer("A change in administrative law by the court");
-        q2.pushAnswer("A demand by the court to end an unconstitutional government action.");
-        q2.pushAnswer("A request from the Supreme Court to a lower court for records of a case.");
-        q2.pushAnswer("A stay that prevents the execution of a prisoner.");
-        q2.setCorrectAnswer("A request from the Supreme Court to a lower court for records of a case.");
+            }
 
-        this.mQuestionsSet.add(q2);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "Failed ot read value", databaseError.toException());
+            }
+        });
 
-        this.listIndex = 1;
+
+        this.mQuestions = new Questions("What is my Name?");
+        this.mQuestions.pushAnswer("Stephen");
+        this.mQuestions.pushAnswer("Mr. Awesome");
+        this.mQuestions.setCorrectAnswer("Mr. Awesome");
+
+        this.mNumberOfAnswers = this.mQuestions.getNumberOfAnswers();
 
     }
 
@@ -127,7 +155,7 @@ public class QuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.question_fragment, container, false);
 
-        this.setQuestions();
+//        this.setQuestions();
         this.setupQuestion(view);
 
 
