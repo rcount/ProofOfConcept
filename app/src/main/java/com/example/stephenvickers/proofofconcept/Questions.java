@@ -1,14 +1,34 @@
 package com.example.stephenvickers.proofofconcept;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by stephenvickers on 10/4/16.
  */
 public class Questions {
+
+//    private String question;
+//    private Map<String, String> answers;
+//    private String correctAnswer;
+//
+//    public Questions(){}
+//
+//    public String getQuestion (){
+//        return this.question;
+//    }
+//
+//    public String getCorrectAnswer(){
+//        return this.correctAnswer;
+//    }
+//
+//    public Map<String, String> getAnswers() {
+//        return answers;
+//    }
+//
+//    public int getNumberOfAnswers(){
+//        return this.answers.size();
+//    }
+
 
     private String question;
 
@@ -21,6 +41,16 @@ public class Questions {
 
     public Questions(){
 
+    }
+
+    public Questions(Questions question){
+        this.setQuestion(question.getQuestion());
+
+        for(int index = 0; index < question.getNumberOfAnswers(); index++){
+            this.pushAnswer(question.getNextAnswer());
+        }
+
+        this.setCorrectAnswer(question.getCorrectAnswer());
     }
 
     public Questions(String question){

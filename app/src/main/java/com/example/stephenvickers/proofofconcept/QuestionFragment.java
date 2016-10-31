@@ -20,18 +20,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static android.R.attr.key;
+import static android.R.attr.tag;
+
 
 /**
  * Created by stephenvickers on 10/4/16.
  */
 public class QuestionFragment extends Fragment {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "QuestionFragment";
 
     /**
      * Variable to hold a {@link Questions} for the Fragment
      */
-    private Questions mQuestions;
+    private Questions mQuestion = new Questions();
 
     private ArrayList<Questions> mQuestionsSet = new ArrayList<>();
 
@@ -65,6 +68,10 @@ public class QuestionFragment extends Fragment {
     private boolean isCorrectChoice;
 
     private int mNumberOfAnswers;
+
+    private String mQuestionKey;
+
+    public QuestionFragment(){}
 
 
     /**
@@ -107,29 +114,68 @@ public class QuestionFragment extends Fragment {
 //
 //        this.listIndex = 1;
 
-        FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = dataBase.getReference();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
+        //TODO: Figure out how to get the values out of fire base.
 
-            }
+//        final Questions temp = new Questions();
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                mQuestion.setQuestion(dataSnapshot.child("Questions").child("q1").child("question").getValue(String.class));
+//                Log.d(TAG, "Question: " + mQuestion.getQuestion());
+//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class));
+//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class));
+//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class));
+//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class));
+//                mQuestion.setCorrectAnswer(dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class));
+//
+//
+//
+//
+////                temp.setQuestion(value);
+////                Log.d(TAG, "Value is: " + value);
+////
+////
+////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class);
+////                temp.pushAnswer(value);
+////                Log.d(TAG, "Value is: " + value);
+////
+////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class);
+////                temp.pushAnswer(value);
+////                Log.d(TAG, "Value is: " + value);
+////
+////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class);
+////                temp.pushAnswer(value);
+////                Log.d(TAG, "Value is: " + value);
+////
+////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class);
+////                temp.pushAnswer(value);
+////                Log.d(TAG, "Value is: " + value);
+////
+////                String correct = dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class);
+////                temp.setCorrectAnswer(correct);
+////                Log.d(TAG, "Value is: " + correct);
+//
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w(TAG, "Failed ot read value", databaseError.toException());
+//
+//            }
+//        });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "Failed ot read value", databaseError.toException());
-            }
-        });
+//        this.mQuestion = new Questions();
 
-
-        this.mQuestions = new Questions("What is my Name?");
-        this.mQuestions.pushAnswer("Stephen");
-        this.mQuestions.pushAnswer("Mr. Awesome");
-        this.mQuestions.setCorrectAnswer("Mr. Awesome");
-
-        this.mNumberOfAnswers = this.mQuestions.getNumberOfAnswers();
+//        this.mQuestion.setQuestion("What's my name?");
+//        this.mQuestion.pushAnswer("Stephen");
+//        this.mQuestion.pushAnswer("Mr. Awesome");
+//        this.mQuestion.pushAnswer("All of the Above");
+//        this.mQuestion.setCorrectAnswer("Stephen");
+//
+//        this.mNumberOfAnswers = this.mQuestion.getNumberOfAnswers();
 
     }
 
@@ -153,15 +199,60 @@ public class QuestionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+        //this. readQuestions();
         final View view = inflater.inflate(R.layout.question_fragment, container, false);
 
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String value = dataSnapshot.child("Questions").child("q1").child("question").getValue(String.class);
+//
+//                mQuestion.setQuestion(value);
+//
+//                Log.d(TAG, "Value is: " + value);
+//
+//                String a1 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class);
+//                mQuestion.pushAnswer(a1);
+//                Log.d(TAG, "Value is: " + a1);
+//
+//                String a2 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class);
+//                mQuestion.pushAnswer(a2);
+//                Log.d(TAG, "Value is: " + a2);
+//
+//                String a3 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class);
+//                mQuestion.pushAnswer(a3);
+//                Log.d(TAG, "Value is: " + a3);
+//
+//                String a4 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class);
+//                mQuestion.pushAnswer(a4);
+//                Log.d(TAG, "Value is: " + a4);
+//
+//                String correct = dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class);
+//                mQuestion.setCorrectAnswer(correct);
+//                Log.d(TAG, "Value is: " + correct);
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w(TAG, "Failed ot read value", databaseError.toException());
+//                System.out.println("The read failed: " + databaseError.getMessage());
+//            }
+//        });
+
 //        this.setQuestions();
+        this.readQuestions();
+        //Log.d(TAG, this.mQuestion.getQuestion());
         this.setupQuestion(view);
 
-
-
+//        this.mNumberOfAnswers = this.mQuestions.getNumberOfAnswers();
+//
         //Set up the RadioGroup for the Buttons and add a serOnCheckedChaneListener
-        this.mRadioGroup = (RadioGroup) view.findViewById(R.id.answer_radial_group);
+
+        this.mRadioGroup = (RadioGroup)view.findViewById(R.id.answer_radial_group);
+
         this.addRadioButtons(this.mRadioGroup);
         this.mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
              @Override
@@ -198,8 +289,8 @@ public class QuestionFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-               listIndex++;
-            }
+//               listIndex++;
+          }
         });
 
 
@@ -208,7 +299,7 @@ public class QuestionFragment extends Fragment {
 
     private void setQuestions(){
         while(this.listIndex < this.mQuestionsSet.size()) {
-            this.mQuestions = this.mQuestionsSet.get(this.listIndex);
+            this.mQuestion = this.mQuestionsSet.get(this.listIndex);
 
         }
     }
@@ -217,31 +308,32 @@ public class QuestionFragment extends Fragment {
 
         //Set up the mQuestionTextView and put the Question text into it
         this.mQuestionsTextView = (TextView)view.findViewById(R.id.question_text_view);
-        this.mQuestionsTextView.setText(this.mQuestions.getQuestion());
+        this.mQuestionsTextView.setText(this.mQuestion.getQuestion());
     }
 
     private void addRadioButtons(RadioGroup radioGroup){
 
         RadioGroup.LayoutParams radioPrams;
 
-        for(int index = 0; index < mNumberOfAnswers; index++){
+
+        for(int index = 0; index < this.getQuestion().getNumberOfAnswers(); index++){
+
             RadioButton radioButton = new RadioButton(getContext());
             radioButton.setId(index + 1);
-            radioButton.setText(this.mQuestions.getNextAnswer());
+            radioButton.setText(this.mQuestion.getNextAnswer());
             radioPrams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             radioGroup.addView(radioButton, index, radioPrams);
-
 
         }
     }
 
 
     private void isCorrectAnswer(String answer){
-        this.isCorrectChoice = answer.equalsIgnoreCase(this.getQuestions().getCorrectAnswer());
+        this.isCorrectChoice = answer.equalsIgnoreCase(this.getQuestion().getCorrectAnswer());
     }
 
-    private Questions getQuestions(){
-        return this.mQuestions;
+    private Questions getQuestion(){
+        return this.mQuestion;
     }
 
     private void printToast(){
@@ -257,6 +349,31 @@ public class QuestionFragment extends Fragment {
 
         this.mRadioGroup.clearCheck();
 
+    }
+
+    private void readQuestions(){
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mQuestion.setQuestion(dataSnapshot.child("Questions").child("q1").child("question").getValue(String.class));
+                Log.d(TAG, "Question: " + mQuestion.getQuestion());
+                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class));
+                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class));
+                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class));
+                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class));
+                mQuestion.setCorrectAnswer(dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class));
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "Failed ot read value", databaseError.toException());
+                System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
     }
 
 
