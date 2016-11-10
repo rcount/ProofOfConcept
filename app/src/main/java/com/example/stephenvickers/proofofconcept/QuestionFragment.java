@@ -2,6 +2,7 @@ package com.example.stephenvickers.proofofconcept;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,10 +16,7 @@ import android.widget.TextView;
 import com.google.firebase.database.*;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static android.R.attr.key;
 import static android.R.attr.tag;
@@ -36,7 +34,7 @@ public class QuestionFragment extends Fragment {
      */
     private Questions mQuestion = new Questions();
 
-    private ArrayList<Questions> mQuestionsSet = new ArrayList<>();
+    private List<Questions> mQuestionsSet = new ArrayList<>();
 
     private int listIndex;
 
@@ -69,9 +67,10 @@ public class QuestionFragment extends Fragment {
 
     private int mNumberOfAnswers;
 
-    private String mQuestionKey;
+    private int mQuestionNumber = 0;
 
     public QuestionFragment(){}
+
 
 
     /**
@@ -94,89 +93,6 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Questions q1 = new Questions("What is the rule of four?");
-//        q1.pushAnswer("That four justices must decide the opinion of a case.");
-//        q1.pushAnswer("Four justice must decide to take a case.");
-//        q1.pushAnswer("There needs to be four parties in every case.");
-//        q1.pushAnswer("There must be four constitutional issues.");
-//        q1.setCorrectAnswer("Four justice must decide to take a case.");
-//
-//        this.mQuestionsSet.add(q1);
-//
-//        Questions q2 = new Questions("What is writ of certiorari?");
-//        q2.pushAnswer("A change in administrative law by the court");
-//        q2.pushAnswer("A demand by the court to end an unconstitutional government action.");
-//        q2.pushAnswer("A request from the Supreme Court to a lower court for records of a case.");
-//        q2.pushAnswer("A stay that prevents the execution of a prisoner.");
-//        q2.setCorrectAnswer("A request from the Supreme Court to a lower court for records of a case.");
-//
-//        this.mQuestionsSet.add(q2);
-//
-//        this.listIndex = 1;
-
-        //TODO: Figure out how to get the values out of fire base.
-
-//        final Questions temp = new Questions();
-//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                mQuestion.setQuestion(dataSnapshot.child("Questions").child("q1").child("question").getValue(String.class));
-//                Log.d(TAG, "Question: " + mQuestion.getQuestion());
-//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class));
-//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class));
-//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class));
-//                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class));
-//                mQuestion.setCorrectAnswer(dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class));
-//
-//
-//
-//
-////                temp.setQuestion(value);
-////                Log.d(TAG, "Value is: " + value);
-////
-////
-////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class);
-////                temp.pushAnswer(value);
-////                Log.d(TAG, "Value is: " + value);
-////
-////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class);
-////                temp.pushAnswer(value);
-////                Log.d(TAG, "Value is: " + value);
-////
-////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class);
-////                temp.pushAnswer(value);
-////                Log.d(TAG, "Value is: " + value);
-////
-////                value = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class);
-////                temp.pushAnswer(value);
-////                Log.d(TAG, "Value is: " + value);
-////
-////                String correct = dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class);
-////                temp.setCorrectAnswer(correct);
-////                Log.d(TAG, "Value is: " + correct);
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.w(TAG, "Failed ot read value", databaseError.toException());
-//
-//            }
-//        });
-
-//        this.mQuestion = new Questions();
-
-//        this.mQuestion.setQuestion("What's my name?");
-//        this.mQuestion.pushAnswer("Stephen");
-//        this.mQuestion.pushAnswer("Mr. Awesome");
-//        this.mQuestion.pushAnswer("All of the Above");
-//        this.mQuestion.setCorrectAnswer("Stephen");
-//
-//        this.mNumberOfAnswers = this.mQuestion.getNumberOfAnswers();
-
     }
 
     /**
@@ -202,134 +118,83 @@ public class QuestionFragment extends Fragment {
         //this. readQuestions();
         final View view = inflater.inflate(R.layout.question_fragment, container, false);
 
-//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                String value = dataSnapshot.child("Questions").child("q1").child("question").getValue(String.class);
-//
-//                mQuestion.setQuestion(value);
-//
-//                Log.d(TAG, "Value is: " + value);
-//
-//                String a1 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class);
-//                mQuestion.pushAnswer(a1);
-//                Log.d(TAG, "Value is: " + a1);
-//
-//                String a2 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class);
-//                mQuestion.pushAnswer(a2);
-//                Log.d(TAG, "Value is: " + a2);
-//
-//                String a3 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class);
-//                mQuestion.pushAnswer(a3);
-//                Log.d(TAG, "Value is: " + a3);
-//
-//                String a4 = dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class);
-//                mQuestion.pushAnswer(a4);
-//                Log.d(TAG, "Value is: " + a4);
-//
-//                String correct = dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class);
-//                mQuestion.setCorrectAnswer(correct);
-//                Log.d(TAG, "Value is: " + correct);
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.w(TAG, "Failed ot read value", databaseError.toException());
-//                System.out.println("The read failed: " + databaseError.getMessage());
-//            }
-//        });
+        //set up the references to the Text field and buttons.
+        this.mCheckAnswerButton = (Button) view.findViewById(R.id.check_answer);
+        this.mQuestionsTextView = (TextView)view.findViewById(R.id.question_text_view);
+        this.mRadioGroup = (RadioGroup) view.findViewById(R.id.answer_radial_group);
+        this.mPrevbutton = (Button) view.findViewById(R.id.prev_button);
+        this.mNextButton = (Button) view.findViewById(R.id.next_button);
+        this.mRadioGroup = (RadioGroup) view.findViewById(R.id.answer_radial_group);
+        this.readQuestions(view);
 
-//        this.setQuestions();
-        this.readQuestions();
-        //Log.d(TAG, this.mQuestion.getQuestion());
-        this.setupQuestion(view);
-
-//        this.mNumberOfAnswers = this.mQuestions.getNumberOfAnswers();
-//
-        //Set up the RadioGroup for the Buttons and add a serOnCheckedChaneListener
-
-        this.mRadioGroup = (RadioGroup)view.findViewById(R.id.answer_radial_group);
-
-        this.addRadioButtons(this.mRadioGroup);
-        this.mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
-             @Override
-             public void onCheckedChanged(RadioGroup radioGroup, int clickedID) {
-                 RadioButton btn = (RadioButton)view.findViewById(mRadioGroup.getCheckedRadioButtonId());
-//                 mChoiceText.setText(mQuestions.getCorrectAnswer());
-//                 mChoiceText.setText(btn.getText().toString());
-                 isCorrectAnswer(btn.getText().toString());
-             }
-        });
-
-        this.mCheckAnswerButton = (Button)view.findViewById(R.id.check_answer);
-        this.mCheckAnswerButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-
-                printToast();
-
-            }
-        });
-
-        this.mPrevbutton = (Button)view.findViewById(R.id.prev_button);
-        this.mPrevbutton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        this.mNextButton = (Button)view.findViewById(R.id.next_button);
-        this.mNextButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-//               listIndex++;
-          }
-        });
 
 
         return view;
     }
 
-    private void setQuestions(){
-        while(this.listIndex < this.mQuestionsSet.size()) {
-            this.mQuestion = this.mQuestionsSet.get(this.listIndex);
 
-        }
+    private void setQuestions(final View view){
+        this.mQuestion = this.mQuestionsSet.get(this.mQuestionNumber);
+        this.mNumberOfAnswers = this.mQuestion.getNumberOfAnswers();
     }
 
-    private void setupQuestion(View view){
+    private void setupQuestion(final View view){
 
         //Set up the mQuestionTextView and put the Question text into it
-        this.mQuestionsTextView = (TextView)view.findViewById(R.id.question_text_view);
+
         this.mQuestionsTextView.setText(this.mQuestion.getQuestion());
+
+
+        this.addRadioButtons(view);
+
+        this.mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int clickedID) {
+                RadioButton clicked = (RadioButton) mRadioGroup.findViewById(mRadioGroup.getCheckedRadioButtonId());
+
+                if (clicked == null) {
+                    Log.d(TAG, " Clicked is NULL!!!");
+                }
+
+                if (clicked != null) {
+                    Log.d(TAG, clicked.getText().toString());
+                    Log.d(TAG, mQuestion.getCorrectAnswer());
+                    isCorrectAnswer(clicked.getText().toString());
+
+                }
+            }
+        });
     }
 
-    private void addRadioButtons(RadioGroup radioGroup){
+    private void addRadioButtons(View view){
+
 
         RadioGroup.LayoutParams radioPrams;
 
-
-        for(int index = 0; index < this.getQuestion().getNumberOfAnswers(); index++){
+        for(int index = 0; index < this.mNumberOfAnswers; index++){
 
             RadioButton radioButton = new RadioButton(getContext());
             radioButton.setId(index + 1);
             radioButton.setText(this.mQuestion.getNextAnswer());
             radioPrams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            radioGroup.addView(radioButton, index, radioPrams);
+            this.mRadioGroup.addView(radioButton, index, radioPrams);
 
         }
+
+
     }
 
+    private void increaseQuestionNumber(){
+        this.mQuestionNumber++;
+    }
+
+    private void decreaseQeustionNumber(){
+        this.mQuestionNumber--;
+    }
 
     private void isCorrectAnswer(String answer){
-        this.isCorrectChoice = answer.equalsIgnoreCase(this.getQuestion().getCorrectAnswer());
+        this.isCorrectChoice = answer.equalsIgnoreCase(this.mQuestion.getCorrectAnswer());
+        Log.d(TAG, "Is it Correct = " + this.isCorrectChoice);
     }
 
     private Questions getQuestion(){
@@ -351,20 +216,71 @@ public class QuestionFragment extends Fragment {
 
     }
 
-    private void readQuestions(){
+    private void readQuestions(final View view){
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mQuestion.setQuestion(dataSnapshot.child("Questions").child("q1").child("question").getValue(String.class));
-                Log.d(TAG, "Question: " + mQuestion.getQuestion());
-                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_1").getValue(String.class));
-                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_2").getValue(String.class));
-                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_3").getValue(String.class));
-                mQuestion.pushAnswer(dataSnapshot.child("Questions").child("q1").child("answers").child("answer_4").getValue(String.class));
-                mQuestion.setCorrectAnswer(dataSnapshot.child("Questions").child("q1").child("correctAnswer").getValue(String.class));
 
+                String question = "general_questions";
+
+                for (int index = 0; index < 10; index++) {
+
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(index + 1);
+                    Questions questions = new Questions();
+                    String questionNumber = builder.toString();
+                    questions.setQuestion(dataSnapshot.child(question).child(questionNumber).child("question").getValue(String.class));
+                    questions.pushAnswer(dataSnapshot.child(question).child(questionNumber).child("answers").child("answer_1").getValue(String.class));
+                    questions.pushAnswer(dataSnapshot.child(question).child(questionNumber).child("answers").child("answer_2").getValue(String.class));
+                    questions.pushAnswer(dataSnapshot.child(question).child(questionNumber).child("answers").child("answer_3").getValue(String.class));
+                    questions.pushAnswer(dataSnapshot.child(question).child(questionNumber).child("answers").child("answer_4").getValue(String.class));
+                    questions.setCorrectAnswer(dataSnapshot.child(question).child(questionNumber).child("correctAnswer").getValue(String.class));
+
+                    mQuestionsSet.add(questions);
+                }
+
+                setQuestions(view);
+                setupQuestion(view);
+
+
+
+
+                mCheckAnswerButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        printToast();
+                        //mRadioGroup.clearCheck();
+                    }
+                });
+
+                mPrevbutton.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(final View view) {
+                        mRadioGroup.setOnCheckedChangeListener(null);
+                        mRadioGroup.clearCheck();
+                        mRadioGroup.removeAllViews();
+                        decreaseQeustionNumber();
+                        setupQuestion(view);
+                        setQuestions(view);
+//                        addRadioButtons(mRadioGroup);
+                    }
+                });
+
+                mNextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View view) {
+                        mRadioGroup.setOnCheckedChangeListener(null);
+                        mRadioGroup.clearCheck();
+                        mRadioGroup.removeAllViews();
+                        increaseQuestionNumber();
+                        setQuestions(view);
+                        setupQuestion(view);
+
+
+//                        addRadioButtons(mRadioGroup);
+                    }
+                });
 
             }
 

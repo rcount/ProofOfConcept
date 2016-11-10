@@ -8,10 +8,22 @@ import java.util.*;
 public class Questions {
 
 //    private String question;
-//    private Map<String, String> answers;
+//    private Set<String> answers = new HashSet();
 //    private String correctAnswer;
 //
 //    public Questions(){}
+//
+//    void setQuestion(String question) {
+//        this.question = question;
+//    }
+//
+//    void setCorrectAnswer(String correctAnswer){
+//        this.correctAnswer = correctAnswer;
+//    }
+//
+//    void setAnswers (String answer){
+//        this.answers.add(answer);
+//    }
 //
 //    public String getQuestion (){
 //        return this.question;
@@ -21,8 +33,8 @@ public class Questions {
 //        return this.correctAnswer;
 //    }
 //
-//    public Map<String, String> getAnswers() {
-//        return answers;
+//    public String getAnswers() {
+//        return this.answers.iterator().next();
 //    }
 //
 //    public int getNumberOfAnswers(){
@@ -40,7 +52,8 @@ public class Questions {
     private int answerNumber = 0;
 
     public Questions(){
-
+        this.question = "";
+        this.correctAnswer = "";
     }
 
     public Questions(Questions question){
@@ -106,5 +119,15 @@ public class Questions {
         result = 31 * result + this.getCorrectAnswer().hashCode();
         result = 31 * result + (this.answerChoice != null ? this.answerChoice.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Questions{" +
+                "question='" + question + '\'' +
+                ", correctAnswer='" + correctAnswer + '\'' +
+                ", answerChoice=" + answerChoice +
+                ", answerNumber=" + answerNumber +
+                '}';
     }
 }
