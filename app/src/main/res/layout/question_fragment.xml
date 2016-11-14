@@ -5,6 +5,14 @@
               android:layout_height="wrap_content"
               android:layout_width="match_parent">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:layout_gravity="center_horizontal"
+        />
+
     <TextView
             android:id="@+id/question_text_view"
             android:layout_width="wrap_content"
@@ -32,7 +40,9 @@
 
             <RadioGroup android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/answer_radial_group">
+                        android:id="@+id/answer_radial_group"
+                        android:layout_marginLeft="32sp"
+                        android:layout_marginRight="32sp">
 
             </RadioGroup>
 
@@ -65,12 +75,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/prev_button"
-                    android:id="@+id/prev_button"/>
+                    android:id="@+id/prev_button"
+                    android:drawableStart="@drawable/arrow_left"/>
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/next_button"
-                    android:id="@+id/next_button"/>
+                    android:id="@+id/next_button"
+                    android:drawableEnd="@drawable/arrow_right"/>
         </LinearLayout>
 
     </LinearLayout>

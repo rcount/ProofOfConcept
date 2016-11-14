@@ -60,7 +60,7 @@ public class Questions {
         this.setQuestion(question.getQuestion());
 
         for(int index = 0; index < question.getNumberOfAnswers(); index++){
-            this.pushAnswer(question.getNextAnswer());
+            this.pushAnswer(question.getNextAnswer(index));
         }
 
         this.setCorrectAnswer(question.getCorrectAnswer());
@@ -91,8 +91,8 @@ public class Questions {
         this.correctAnswer = correctAnswer;
     }
 
-    public String getNextAnswer(){
-        return this.answerChoice.remove(0);
+    public String getNextAnswer(int index){
+        return this.answerChoice.get(index);
     }
 
     public int getNumberOfAnswers(){

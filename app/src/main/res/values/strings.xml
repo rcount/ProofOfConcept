@@ -2,10 +2,11 @@
     <string name="app_name">ProofOfConcept</string>
     <string name="questions">Question</string>
     <string name="questions_answered">Question answered</string>
-    <string name="awesome_me">Is Stephen Awesome?</string>
     <string name="check_answer">Check Answer</string>
     <string name="answer_true">True</string>
     <string name="answer_false">False</string>
-    <string name="prev_button">Previous</string>
+    <string name="prev_button">Prev</string>
     <string name="next_button">Next</string>
+    <string name="take_quiz_again">Take Quiz Again</string>
+
 </resources>

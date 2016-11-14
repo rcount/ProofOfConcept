@@ -1,10 +1,12 @@
 package com.example.stephenvickers.proofofconcept;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.google.firebase.database.*;
 
-import java.lang.reflect.Array;
 import java.util.*;
-
-import static android.R.attr.key;
-import static android.R.attr.tag;
 
 
 /**
@@ -44,6 +42,8 @@ public class QuestionFragment extends Fragment {
     private TextView mQuestionsTextView;
 
     private RadioGroup mRadioGroup;
+
+    private ProgressBar mSpinner;
 
     /**
      * Variable to hold a button to check if you have the right answer
@@ -125,6 +125,9 @@ public class QuestionFragment extends Fragment {
         this.mPrevbutton = (Button) view.findViewById(R.id.prev_button);
         this.mNextButton = (Button) view.findViewById(R.id.next_button);
         this.mRadioGroup = (RadioGroup) view.findViewById(R.id.answer_radial_group);
+        this.mSpinner = (ProgressBar)view.findViewById(R.id.progress_bar);
+
+        this.setVisibillity(View.GONE);
         this.readQuestions(view);
 
 
@@ -138,11 +141,23 @@ public class QuestionFragment extends Fragment {
         this.mNumberOfAnswers = this.mQuestion.getNumberOfAnswers();
     }
 
+    private void setVisibillity(int view){
+        this.mCheckAnswerButton.setVisibility(view);
+        this.mQuestionsTextView.setVisibility(view);
+        this.mRadioGroup.setVisibility(view);
+        this.mPrevbutton.setVisibility(view);
+        this.mNextButton.setVisibility(view);
+        this.mRadioGroup.setVisibility(view);
+    }
+
     private void setupQuestion(final View view){
 
         //Set up the mQuestionTextView and put the Question text into it
 
         this.mQuestionsTextView.setText(this.mQuestion.getQuestion());
+
+
+        this.mQuestionsTextView.setTextAlignment(view.getTextAlignment());
 
 
         this.addRadioButtons(view);
@@ -171,13 +186,15 @@ public class QuestionFragment extends Fragment {
 
         RadioGroup.LayoutParams radioPrams;
 
+
         for(int index = 0; index < this.mNumberOfAnswers; index++){
 
             RadioButton radioButton = new RadioButton(getContext());
             radioButton.setId(index + 1);
-            radioButton.setText(this.mQuestion.getNextAnswer());
+            radioButton.setText(this.mQuestion.getNextAnswer(index));
             radioPrams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             this.mRadioGroup.addView(radioButton, index, radioPrams);
+
 
         }
 
@@ -185,11 +202,24 @@ public class QuestionFragment extends Fragment {
     }
 
     private void increaseQuestionNumber(){
-        this.mQuestionNumber++;
+
+        if(this.mQuestionNumber < this.mQuestionsSet.size()){
+            this.mQuestionNumber++;
+        }
+        else{
+            this.mQuestionNumber = this.mQuestionsSet.size();
+            Toast.makeText(getContext().getApplicationContext(), "Last Question", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void decreaseQeustionNumber(){
-        this.mQuestionNumber--;
+    private void decreaseQuestionNumber(){
+        if (this.mQuestionNumber != 0) {
+            this.mQuestionNumber--;
+        }
+        else{
+            this.mQuestionNumber = 0;
+            Toast.makeText(getContext().getApplicationContext(),"First Question", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void isCorrectAnswer(String answer){
@@ -241,6 +271,9 @@ public class QuestionFragment extends Fragment {
                     mQuestionsSet.add(questions);
                 }
 
+                mSpinner.setVisibility(View.GONE);
+                setVisibillity(View.VISIBLE);
+
                 setQuestions(view);
                 setupQuestion(view);
 
@@ -256,14 +289,14 @@ public class QuestionFragment extends Fragment {
                 });
 
                 mPrevbutton.setOnClickListener(new View.OnClickListener(){
+                    @Override
                     public void onClick(final View view) {
                         mRadioGroup.setOnCheckedChangeListener(null);
                         mRadioGroup.clearCheck();
                         mRadioGroup.removeAllViews();
-                        decreaseQeustionNumber();
-                        setupQuestion(view);
+                        decreaseQuestionNumber();
                         setQuestions(view);
-//                        addRadioButtons(mRadioGroup);
+                        setupQuestion(view);
                     }
                 });
 
@@ -276,9 +309,6 @@ public class QuestionFragment extends Fragment {
                         increaseQuestionNumber();
                         setQuestions(view);
                         setupQuestion(view);
-
-
-//                        addRadioButtons(mRadioGroup);
                     }
                 });
 
