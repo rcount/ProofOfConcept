@@ -6,6 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+
+    </style>
+
+    <!---Theme for the spinner that is shown while the app is calling home getting the questions-->
+    <style name="spinnerStyle" parent="@style/Base.Widget.AppCompat.ProgressBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:progressDrawable">@drawable/circular_progress_bar</item>
+        <item name="android:endColor">@color/progressColor</item>
+        <item name="android:startColor">@color/progressColor</item>
+        <item name="android:centerColor">@color/progressColor</item>
+        <item name="android:angle">0</item>
+        <item name="android:useLevel">false</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
 </resources>

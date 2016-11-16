@@ -1,12 +1,10 @@
 package com.example.stephenvickers.proofofconcept;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +21,9 @@ import java.util.*;
 /**
  * Created by stephenvickers on 10/4/16.
  */
-public class QuestionFragment extends Fragment {
+public class QuizFragment extends Fragment {
 
-    private static final String TAG = "QuestionFragment";
+    private static final String TAG = "QuizFragment";
 
     /**
      * Variable to hold a {@link Questions} for the Fragment
@@ -36,11 +34,16 @@ public class QuestionFragment extends Fragment {
 
     private int listIndex;
 
+    private int mNunberRight = 0;
+
     /**
      * Variable to hold a TextView for the question
      */
     private TextView mQuestionsTextView;
 
+    /**
+     * Private variable for the {@link RadioGroup} used in the {@link QuizFragment Class}
+     */
     private RadioGroup mRadioGroup;
 
     private ProgressBar mSpinner;
@@ -53,7 +56,7 @@ public class QuestionFragment extends Fragment {
     /**
      * Variable to hold the Previous button to move to the Previous Question
      */
-    private Button mPrevbutton;
+    private Button mPrevButton;
 
     /**
      * Variable to hold the Next button to move to the Next Question
@@ -69,7 +72,7 @@ public class QuestionFragment extends Fragment {
 
     private int mQuestionNumber = 0;
 
-    public QuestionFragment(){}
+    public QuizFragment(){}
 
 
 
@@ -115,19 +118,19 @@ public class QuestionFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        //this. readQuestions();
-        final View view = inflater.inflate(R.layout.question_fragment, container, false);
+
+        final View view = inflater.inflate(R.layout.quiz_fragment, container, false);
 
         //set up the references to the Text field and buttons.
         this.mCheckAnswerButton = (Button) view.findViewById(R.id.check_answer);
         this.mQuestionsTextView = (TextView)view.findViewById(R.id.question_text_view);
         this.mRadioGroup = (RadioGroup) view.findViewById(R.id.answer_radial_group);
-        this.mPrevbutton = (Button) view.findViewById(R.id.prev_button);
+        this.mPrevButton = (Button) view.findViewById(R.id.prev_button);
         this.mNextButton = (Button) view.findViewById(R.id.next_button);
         this.mRadioGroup = (RadioGroup) view.findViewById(R.id.answer_radial_group);
         this.mSpinner = (ProgressBar)view.findViewById(R.id.progress_bar);
 
-        this.setVisibillity(View.GONE);
+        this.setVisibility(View.GONE);
         this.readQuestions(view);
 
 
@@ -141,11 +144,11 @@ public class QuestionFragment extends Fragment {
         this.mNumberOfAnswers = this.mQuestion.getNumberOfAnswers();
     }
 
-    private void setVisibillity(int view){
+    private void setVisibility(int view){
         this.mCheckAnswerButton.setVisibility(view);
         this.mQuestionsTextView.setVisibility(view);
         this.mRadioGroup.setVisibility(view);
-        this.mPrevbutton.setVisibility(view);
+        this.mPrevButton.setVisibility(view);
         this.mNextButton.setVisibility(view);
         this.mRadioGroup.setVisibility(view);
     }
@@ -192,6 +195,7 @@ public class QuestionFragment extends Fragment {
             RadioButton radioButton = new RadioButton(getContext());
             radioButton.setId(index + 1);
             radioButton.setText(this.mQuestion.getNextAnswer(index));
+            radioButton.setTextSize(16);
             radioPrams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             this.mRadioGroup.addView(radioButton, index, radioPrams);
 
@@ -203,12 +207,11 @@ public class QuestionFragment extends Fragment {
 
     private void increaseQuestionNumber(){
 
-        if(this.mQuestionNumber < this.mQuestionsSet.size()){
+        if(this.mQuestionNumber < this.mQuestionsSet.size()-1){
             this.mQuestionNumber++;
         }
         else{
-            this.mQuestionNumber = this.mQuestionsSet.size();
-            Toast.makeText(getContext().getApplicationContext(), "Last Question", Toast.LENGTH_SHORT).show();
+            showScoreFragment();
         }
     }
 
@@ -234,6 +237,7 @@ public class QuestionFragment extends Fragment {
     private void printToast(){
         if (this.isCorrectChoice){
             Toast.makeText(getContext().getApplicationContext(), "Correct", Toast.LENGTH_SHORT).show();
+            this.mNunberRight++;
         }
         else {
             Toast.makeText(getContext().getApplicationContext(), "Incorrect", Toast.LENGTH_SHORT).show();
@@ -272,7 +276,7 @@ public class QuestionFragment extends Fragment {
                 }
 
                 mSpinner.setVisibility(View.GONE);
-                setVisibillity(View.VISIBLE);
+                setVisibility(View.VISIBLE);
 
                 setQuestions(view);
                 setupQuestion(view);
@@ -288,10 +292,10 @@ public class QuestionFragment extends Fragment {
                     }
                 });
 
-                mPrevbutton.setOnClickListener(new View.OnClickListener(){
+                mPrevButton.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(final View view) {
-                        mRadioGroup.setOnCheckedChangeListener(null);
+
                         mRadioGroup.clearCheck();
                         mRadioGroup.removeAllViews();
                         decreaseQuestionNumber();
@@ -303,7 +307,7 @@ public class QuestionFragment extends Fragment {
                 mNextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        mRadioGroup.setOnCheckedChangeListener(null);
+
                         mRadioGroup.clearCheck();
                         mRadioGroup.removeAllViews();
                         increaseQuestionNumber();
@@ -320,6 +324,22 @@ public class QuestionFragment extends Fragment {
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
         });
+    }
+
+
+    public void showScoreFragment(){
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("NumberCorrect", this.mNunberRight);
+        bundle.putInt("TotalQuestions", this.mQuestionsSet.size());
+
+        Fragment score = new ScoreFragment();
+        score.setArguments(bundle);
+        this.getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, score, null)
+                .addToBackStack(null)
+                .commit();
+
     }
 
 

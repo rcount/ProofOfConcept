@@ -9,7 +9,7 @@ import com.google.firebase.database.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MainActivity extends SingleQuestionActivity{
+public class MainActivity extends SingleViewActivityFragment{
 
 
     private static final String TAG = "MainActivity";
@@ -22,7 +22,7 @@ public class MainActivity extends SingleQuestionActivity{
     @Override
     protected Fragment createFragment() {
 
-        return new QuestionFragment();
+        return new QuizFragment();
     }
 
 }

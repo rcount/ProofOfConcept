@@ -2,23 +2,39 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+
+    <!---This TextView is not referenced in the ScoreFragment POJO
+         as it only shows "Score" and never changes-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="32sp"
+        android:text="@string/score_banner"
+        android:layout_gravity="center_horizontal"
+    />
+
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/score_text_view"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:layout_marginLeft="32sp"
-        android:layout_marginRight="32sp"/>
+        android:layout_marginRight="32sp"
+    />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12sp"
         android:id="@+id/redo_quiz"
         android:text="@string/take_quiz_again"
-        android:layout_below="@+id/score_text_view"/>
+    />
 
 
 </LinearLayout>

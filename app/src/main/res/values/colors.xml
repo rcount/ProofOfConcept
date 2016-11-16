@@ -2,6 +2,6 @@
 <resources>
     <color name="colorPrimary">#aec2ae</color>
     <color name="colorPrimaryDark">#456c50</color>
-    <color name="colorAccent">#f64e2f</color>
-    <color name="spinner_color">#3c3f41</color>
+    <color name="colorAccent">#f38d43</color>
+    <color name="progressColor">#3c3f41</color>
 </resources>

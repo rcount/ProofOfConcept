@@ -13,7 +13,7 @@ import android.support.v4.app.FragmentManager;
 /**
  * Abstract class to make a new fragment for the quiz
  */
-public abstract class SingleQuestionActivity extends FragmentActivity {
+public abstract class SingleViewActivityFragment extends FragmentActivity {
 
     /**
      * Method to Create the Fragment if it's null

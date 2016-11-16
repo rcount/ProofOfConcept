@@ -9,15 +9,11 @@
     <shape
         android:innerRadius="3dp"
         android:shape="ring"
-        android:thicknessRatio="7.0">
+        android:thicknessRatio="7.0"
+        >
 
-        <gradient
-            android:centerColor="@color/spinner_color"
-            android:endColor="@color/spinner_color"
-            android:startColor="@color/spinner_color"
-            android:angle="0"
-            android:type="sweep"
-            android:useLevel="false" />
+        <gradient style="@style/spinnerStyle"/>
+
     </shape>
 </rotate>
 
