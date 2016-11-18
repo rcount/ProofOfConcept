@@ -1,49 +1,20 @@
 package com.example.stephenvickers.proofofconcept;
 
-import java.util.*;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.io.Serializable;
+
 
 /**
  * Created by stephenvickers on 10/4/16.
  */
-public class Questions {
-
-//    private String question;
-//    private Set<String> answers = new HashSet();
-//    private String correctAnswer;
-//
-//    public Questions(){}
-//
-//    void setQuestion(String question) {
-//        this.question = question;
-//    }
-//
-//    void setCorrectAnswer(String correctAnswer){
-//        this.correctAnswer = correctAnswer;
-//    }
-//
-//    void setAnswers (String answer){
-//        this.answers.add(answer);
-//    }
-//
-//    public String getQuestion (){
-//        return this.question;
-//    }
-//
-//    public String getCorrectAnswer(){
-//        return this.correctAnswer;
-//    }
-//
-//    public String getAnswers() {
-//        return this.answers.iterator().next();
-//    }
-//
-//    public int getNumberOfAnswers(){
-//        return this.answers.size();
-//    }
+public class Questions implements Serializable{
 
 
     private String question;
-
 
     private String correctAnswer;
 
@@ -51,10 +22,13 @@ public class Questions {
 
     private int answerNumber = 0;
 
+
     public Questions(){
         this.question = "";
         this.correctAnswer = "";
     }
+
+
 
     public Questions(Questions question){
         this.setQuestion(question.getQuestion());
@@ -98,6 +72,8 @@ public class Questions {
     public int getNumberOfAnswers(){
         return answerChoice.size();
     }
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:id="@+id/score_fragment">
 
 
     <!---This TextView is not referenced in the ScoreFragment POJO
@@ -28,12 +29,22 @@
     />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="170sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="12sp"
         android:id="@+id/redo_quiz"
         android:text="@string/take_quiz_again"
+
+    />
+
+    <Button
+        android:layout_width= "170sp"
+        android:layout_height="wrap_content"
+        android:id="@+id/email_professor"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12sp"
+        android:text="@string/email_professor"
     />
 
 

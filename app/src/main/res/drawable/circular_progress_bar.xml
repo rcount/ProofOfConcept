@@ -12,7 +12,14 @@
         android:thicknessRatio="7.0"
         >
 
-        <gradient style="@style/spinnerStyle"/>
+        <gradient
+            android:endColor="@color/progressColor"
+            android:startColor="@color/progressColor"
+            android:centerColor="@color/progressColor"
+            android:angle="0"
+            android:useLevel="false"
+            android:layout_gravity="center_horizontal"
+        />
 
     </shape>
 </rotate>

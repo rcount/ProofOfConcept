@@ -32,6 +32,17 @@ public class ScoreFragment extends Fragment {
     private Button mRedoButton;
 
     /**
+     * Private Button for to email a professor you score
+     */
+    private Button mEmailProfButton;
+
+    /**
+     * Private Sting to hold the email of the professor
+     */
+
+    private String mProfEmail;
+
+    /**
      * Private static final float for the text size of {@link ScoreFragment#mScoreTextView}
      */
     private static final float TEXT_SIZE = 20;
@@ -100,6 +111,13 @@ public class ScoreFragment extends Fragment {
                         .commit();
             }
         });
+
+        this.mEmailProfButton = (Button) view.findViewById(R.id.email_professor);
+        if (this.mProfEmail == null){
+            this.mEmailProfButton.setVisibility(View.INVISIBLE);
+        }
+
+
 
         return view;
     }

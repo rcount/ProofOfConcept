@@ -10,17 +10,31 @@
 
     </style>
 
-    <!---Theme for the spinner that is shown while the app is calling home getting the questions-->
+    <!---Style for the spinner that is shown while the app is calling home getting the questions-->
     <style name="spinnerStyle" parent="@style/Base.Widget.AppCompat.ProgressBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:progressDrawable">@drawable/circular_progress_bar</item>
-        <item name="android:endColor">@color/progressColor</item>
-        <item name="android:startColor">@color/progressColor</item>
-        <item name="android:centerColor">@color/progressColor</item>
-        <item name="android:angle">0</item>
-        <item name="android:useLevel">false</item>
-        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <!---Style for an EditText box that has rounded top corners -->
+    <style name="top_rounded" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/top_rounded</item>
+    </style>
+
+    <!---Style for an EditText box that is not rounded, but color wise matches the top_rounded and bottom_rounded-->
+    <style name="no_rounded" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/no_rounded</item>
+    </style>
+
+    <!---Style for an EdidText box that has rounded Bottom corners-->
+    <style name="bottom_rounded" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/bottom_rounded</item>
+    </style>
+
+    <!---Style to make a picture have rounded edges-->
+    <style name="rounded_image" >
+        <item name="android:background">@drawable/rounded_picture</item>
     </style>
 
 </resources>

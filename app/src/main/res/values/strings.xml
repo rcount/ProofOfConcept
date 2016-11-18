@@ -9,5 +9,16 @@
     <string name="next_button">Next</string>
     <string name="take_quiz_again">Take Quiz Again</string>
     <string name="score_banner">Score</string>
+    <string name="email_professor">Email Professor</string>
+
+
+    <string name="username_hint">Name</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Sign Up</string>
+
+
+    <string name="auth_failed">AuthFailed</string>
 
 </resources>
