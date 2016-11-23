@@ -5,6 +5,7 @@
     android:layout_gravity="center"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:padding="12sp"
     android:id="@+id/score_fragment">
 
 
@@ -16,6 +17,9 @@
         android:textSize="32sp"
         android:text="@string/score_banner"
         android:layout_gravity="center_horizontal"
+        android:padding="12sp"
+        android:textColor="@color/black"
+        style="@style/rounded_corers_10sp_text_view"
     />
 
 
@@ -26,6 +30,10 @@
         android:layout_gravity="center"
         android:layout_marginLeft="32sp"
         android:layout_marginRight="32sp"
+        android:layout_marginTop="12sp"
+        android:padding="12sp"
+        android:textColor="@color/black"
+        style="@style/rounded_corers_10sp_text_view"
     />
 
     <Button

@@ -25,7 +25,7 @@ import java.util.concurrent.Executor;
  * Created by stephenvickers on 11/17/16.
  */
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment {
 
 
 
@@ -55,7 +55,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         this.mEmail = (EditText) view.findViewById(R.id.login_email);
         this.mPassword = (EditText) view.findViewById(R.id.login_password);
         this.mLoginButton = (Button) view.findViewById(R.id.login_button);
+        this.mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn(mEmail.getText().toString(), mPassword.getText().toString());
+                createNewFragment();
+            }
+        });
+
         this.mSignUpButton = (Button) view.findViewById(R.id.signup_button);
+        this.mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAccount(mEmail.getText().toString(), mPassword.getText().toString());
+                createNewFragment();
+            }
+        });
 
         this.mAuth = FirebaseAuth.getInstance();
 
@@ -143,18 +158,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         return validForm;
     }
 
-
-
-    @Override
-    public void onClick(View view) {
-        int clicked = view.getId();
-
-        if(clicked == R.id.login_button){
-            this.signIn(this.mEmail.getText().toString(), this.mPassword.getText().toString());
-        }
-
-        else if (clicked == R.id.signup_button){
-            this.createAccount(this.mEmail.getText().toString(), this.mPassword.getText().toString());
-        }
+    private Fragment createNewFragment(){
+        return new ScoreFragment();
     }
+
+
+
+
 }

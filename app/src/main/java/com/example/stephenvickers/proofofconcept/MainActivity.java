@@ -16,9 +16,9 @@ public class MainActivity extends SingleViewActivityFragment{
     @Override
     protected Fragment createFragment() {
 
-        return new LoginFragment();
+//        return new LoginFragment();
 //        return new ScoreFragment();
-//        return new QuizFragment();
+        return new QuizFragment();
     }
 
 }

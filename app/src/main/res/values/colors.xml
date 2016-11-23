@@ -5,5 +5,8 @@
     <color name="colorAccent">#f38d43</color>
     <color name="progressColor">#3c3f41</color>
     <color name="white">#ffffff</color>
-    <color name="drawable_stroke">#aaacac</color>
+    <color name="black">#000000</color>
+    <color name="drawable_stroke">#a1a1a1</color>
+    <color name="buttonColor">#d6d7d7</color>
+    <color name="colorAccentDark">#d15400</color>
 </resources>

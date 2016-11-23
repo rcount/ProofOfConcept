@@ -116,6 +116,14 @@ public class ScoreFragment extends Fragment {
         if (this.mProfEmail == null){
             this.mEmailProfButton.setVisibility(View.INVISIBLE);
         }
+        else {
+            this.mEmailProfButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+        }
 
 
 

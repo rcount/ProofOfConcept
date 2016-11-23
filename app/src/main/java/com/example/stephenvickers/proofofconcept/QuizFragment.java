@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +20,8 @@ import com.google.firebase.database.*;
 
 import java.io.Serializable;
 import java.util.*;
+
+import static com.example.stephenvickers.proofofconcept.R.color.black;
 
 
 /**
@@ -76,6 +81,8 @@ public class QuizFragment extends Fragment {
     private static final String CURRENT_QUESTION = "CurrentQuestion";
 
     private static final String NUMBER_CORRECT = "NumberCorrect";
+
+    private static final int TEXT_SIZE = 14;
 
     private View mView;
 
@@ -195,6 +202,7 @@ public class QuizFragment extends Fragment {
         this.mRadioGroup = (RadioGroup) this.mView.findViewById(R.id.answer_radial_group);
         this.mSpinner = (ProgressBar)this.mView.findViewById(R.id.progress_bar);
 
+
         //set the visibility of everything except the spinner to View.GONE
         this.setVisibility(View.GONE);
 
@@ -305,7 +313,9 @@ public class QuizFragment extends Fragment {
             radioButton.setText(this.mQuestion.getNextAnswer(index));
 
             //set the size of the text on the radio button
-            radioButton.setTextSize(16);
+            radioButton.setTextSize(TEXT_SIZE);
+
+            radioButton.setTextColor(getResources().getColor(R.color.black));
 
             //set the radioParams to the new LayoutParams for the current button, wrapping the content for width and height
             radioPrams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

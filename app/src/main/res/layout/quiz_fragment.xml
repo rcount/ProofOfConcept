@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_gravity="center"
-              android:layout_height="wrap_content"
-              android:layout_width="match_parent"
-              android:id="@+id/quiz_fragment"
-    >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:id="@+id/quiz_fragment"
+
+>
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/spinnerStyle"
+
         />
 
     <TextView
-            android:id="@+id/question_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="32sp"
-            android:layout_marginRight="32sp"
-            android:textSize="20sp"
-            style="?android:listSeparatorTextViewStyle"
+        android:id="@+id/question_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="32sp"
+        android:layout_marginRight="32sp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:padding="12sp"
+        style="@style/rounded_corers_10sp_text_view"
 
     />
 
@@ -40,13 +45,16 @@
             android:layout_marginTop="12sp"
             android:layout_marginBottom="12sp">
 
-            <RadioGroup android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/answer_radial_group"
-                        android:layout_marginLeft="32sp"
-                        android:layout_marginRight="32sp">
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/answer_radial_group"
+                android:layout_marginLeft="32sp"
+                android:layout_marginRight="32sp"
+                style="@style/rounded_corers_10sp_radio_group."
+            />
 
-            </RadioGroup>
+
 
 
 
@@ -59,10 +67,12 @@
                 android:padding="12sp">
 
             <Button
-                    android:layout_width="162sp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/check_answer"
-                    android:id="@+id/check_answer"/>
+                android:layout_width="162sp"
+                android:layout_height="wrap_content"
+                android:text="@string/check_answer"
+                android:id="@+id/check_answer"
+
+            />
 
 
         </LinearLayout>
