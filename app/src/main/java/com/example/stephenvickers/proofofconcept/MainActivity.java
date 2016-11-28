@@ -17,7 +17,7 @@ public class MainActivity extends SingleViewActivityFragment{
     protected Fragment createFragment() {
 
 //        return new LoginFragment();
-//        return new ScoreFragment();
+
         return new QuizFragment();
     }
 

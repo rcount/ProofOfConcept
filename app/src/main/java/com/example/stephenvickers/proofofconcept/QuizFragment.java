@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import com.google.firebase.database.*;
 import java.io.Serializable;
 import java.util.*;
 
-import static com.example.stephenvickers.proofofconcept.R.color.black;
 
 
 /**
@@ -55,7 +55,7 @@ public class QuizFragment extends Fragment {
     /**
      * Variable to hold a button to check if you have the right answer
      */
-    private Button mCheckAnswerButton;
+    private FloatingActionButton mCheckAnswerButton;
 
     /**
      * Variable to hold the Previous button to move to the Previous Question
@@ -65,7 +65,7 @@ public class QuizFragment extends Fragment {
     /**
      * Variable to hold the Next button to move to the Next Question
      */
-    private Button mNextButton;
+    private FloatingActionButton mNextButton;
 
     /**
      * Variable to hold whether or not the person choose the correct choice or not
@@ -194,14 +194,14 @@ public class QuizFragment extends Fragment {
 
 
         //set up the references to the Text field and buttons.
-        this.mCheckAnswerButton = (Button) this.mView.findViewById(R.id.check_answer);
+        this.mCheckAnswerButton = (FloatingActionButton) this.mView.findViewById(R.id.check_answer);
         this.mQuestionsTextView = (TextView)this.mView.findViewById(R.id.question_text_view);
         this.mRadioGroup = (RadioGroup) this.mView.findViewById(R.id.answer_radial_group);
-        this.mPrevButton = (Button) this.mView.findViewById(R.id.prev_button);
-        this.mNextButton = (Button) this.mView.findViewById(R.id.next_button);
+//        this.mPrevButton = (Button) this.mView.findViewById(R.id.prev_button);
         this.mRadioGroup = (RadioGroup) this.mView.findViewById(R.id.answer_radial_group);
         this.mSpinner = (ProgressBar)this.mView.findViewById(R.id.progress_bar);
-
+        this.mNextButton = (FloatingActionButton) this.mView.findViewById(R.id.next_button);
+        this.mNextButton.setVisibility(View.GONE);
 
         //set the visibility of everything except the spinner to View.GONE
         this.setVisibility(View.GONE);
@@ -236,8 +236,8 @@ public class QuizFragment extends Fragment {
         this.mCheckAnswerButton.setVisibility(view);
         this.mQuestionsTextView.setVisibility(view);
         this.mRadioGroup.setVisibility(view);
-        this.mPrevButton.setVisibility(view);
-        this.mNextButton.setVisibility(view);
+//        this.mPrevButton.setVisibility(view);
+        this.mNextButton.setVisibility(View.GONE);
 
     }
 
@@ -315,7 +315,7 @@ public class QuizFragment extends Fragment {
             //set the size of the text on the radio button
             radioButton.setTextSize(TEXT_SIZE);
 
-            radioButton.setTextColor(getResources().getColor(R.color.black));
+            radioButton.setTextColor(getResources().getColor(R.color.primary_text));
 
             //set the radioParams to the new LayoutParams for the current button, wrapping the content for width and height
             radioPrams = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -387,10 +387,15 @@ public class QuizFragment extends Fragment {
 
             //increase the number of right answers for the final score
             this.mNumberRight++;
+
+            this.mCheckAnswerButton.setVisibility(View.GONE);
+            this.mNextButton.setVisibility(View.VISIBLE);
         }
         else {
             //print the incorrect toast
             Toast.makeText(getContext().getApplicationContext(), "Incorrect", Toast.LENGTH_SHORT).show();
+            this.mCheckAnswerButton.setVisibility(View.GONE);
+            this.mNextButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -472,38 +477,40 @@ public class QuizFragment extends Fragment {
                     public void onClick(View view) {
                         //print the toast of isCorrectAnswer
                         printToast();
+
+
                         //mRadioGroup.clearCheck();
                     }
                 });
 
-                //set an onClickedListener for the mPrevButton
-                mPrevButton.setOnClickListener(new View.OnClickListener(){
-
-                    /**
-                     * Override of the onClick method for the {@link QuizFragment#mPrevButton}
-                     *
-                     * @param view {@link View} reference to see if the button was clicked
-                     */
-                    @Override
-                    public void onClick(final View view) {
-
-                        //clear the current check from the mRadioGroup if there is one
-                        mRadioGroup.clearCheck();
-
-                        //remove all the old RadioButton answers from the mRadioGroup
-                        mRadioGroup.removeAllViews();
-
-                        //decrease the question
-                        decreaseQuestionNumber();
-
-                        //set the current mQuestion to the right mQuestionSet number
-                        setQuestions();
-
-                        //setup the current mQuestion
-                        //set the mQuestionTextView and  the answers to mRadioGroup
-                        setupQuestion(view);
-                    }
-                });
+//                //set an onClickedListener for the mPrevButton
+//                mPrevButton.setOnClickListener(new View.OnClickListener(){
+//
+//                    /**
+//                     * Override of the onClick method for the {@link QuizFragment#mPrevButton}
+//                     *
+//                     * @param view {@link View} reference to see if the button was clicked
+//                     */
+//                    @Override
+//                    public void onClick(final View view) {
+//
+//                        //clear the current check from the mRadioGroup if there is one
+//                        mRadioGroup.clearCheck();
+//
+//                        //remove all the old RadioButton answers from the mRadioGroup
+//                        mRadioGroup.removeAllViews();
+//
+//                        //decrease the question
+//                        decreaseQuestionNumber();
+//
+//                        //set the current mQuestion to the right mQuestionSet number
+//                        setQuestions();
+//
+//                        //setup the current mQuestion
+//                        //set the mQuestionTextView and  the answers to mRadioGroup
+//                        setupQuestion(view);
+//                    }
+//                });
 
                 //set an onClickedListener for the mNextButton
                 mNextButton.setOnClickListener(new View.OnClickListener() {
@@ -515,6 +522,9 @@ public class QuizFragment extends Fragment {
                      */
                     @Override
                     public void onClick(final View view) {
+
+                        mCheckAnswerButton.setVisibility(View.VISIBLE);
+                        mNextButton.setVisibility(View.GONE);
 
                         //clear the current check from the mRadioGroup if there is one
                         mRadioGroup.clearCheck();
