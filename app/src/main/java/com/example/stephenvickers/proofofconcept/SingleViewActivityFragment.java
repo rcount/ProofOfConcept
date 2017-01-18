@@ -5,6 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.v7.appcompat.*;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import com.firebase.ui.auth.AuthUI;
 
 /**
  * Created by stephenvickers on 10/13/16.
@@ -13,7 +20,8 @@ import android.support.v4.app.FragmentManager;
 /**
  * Abstract class to make a new fragment for the quiz
  */
-public abstract class SingleViewActivityFragment extends FragmentActivity {
+public abstract class SingleViewActivityFragment extends AppCompatActivity {
+
 
     /**
      * Method to Create the Fragment if it's null
@@ -31,6 +39,8 @@ public abstract class SingleViewActivityFragment extends FragmentActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         //set the content on the screen to the question fragment
         setContentView(R.layout.activity_main);
 
@@ -47,4 +57,6 @@ public abstract class SingleViewActivityFragment extends FragmentActivity {
         }//else fragment is valid .doNothing()
 
     }
+
+
 }

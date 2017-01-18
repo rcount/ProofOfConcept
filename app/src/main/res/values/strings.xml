@@ -21,4 +21,6 @@
 
     <string name="auth_failed">AuthFailed</string>
 
+    <string name="sign_out">Sign Out</string>
+
 </resources>

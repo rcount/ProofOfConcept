@@ -1,59 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    tools:context=".ScoreFragment"
     android:id="@+id/score_fragment">
 
 
-    <!---This TextView is not referenced in the ScoreFragment POJO
-         as it only shows "Score" and never changes-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="32sp"
-        android:text="@string/score_banner"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/primary_text"
+  <include layout="@layout/score_fragment_content"/>
 
-    />
+  <android.support.design.widget.FloatingActionButton
+      android:layout_width="170sp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|end"
+      android:layout_margin="@dimen/fab_margin"
+      android:id="@+id/redo_quiz"
+      android:text="@string/take_quiz_again"
+      android:src="@drawable/arrow_circle_left"
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/score_text_view"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/primary_text"
-
-    />
-
-    <Button
-        android:layout_width="170sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12sp"
-        android:id="@+id/redo_quiz"
-        android:text="@string/take_quiz_again"
-        style="@android:style/Widget.Button.Small"
-
-    />
-
-    <Button
-        android:layout_width= "170sp"
-        android:layout_height="wrap_content"
-        android:id="@+id/email_professor"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12sp"
-        android:text="@string/email_professor"
-    />
+  />
 
 
-</LinearLayout>
+  <Button
+      android:layout_width= "170sp"
+      android:layout_height="wrap_content"
+      android:id="@+id/email_professor"
+      android:layout_gravity="bottom"
+      android:layout_marginTop="12sp"
+      android:text="@string/email_professor"
+  />
+
+
+</android.support.design.widget.CoordinatorLayout>

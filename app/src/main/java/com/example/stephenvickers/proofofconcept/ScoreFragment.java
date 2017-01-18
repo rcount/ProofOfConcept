@@ -2,7 +2,9 @@ package com.example.stephenvickers.proofofconcept;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ public class ScoreFragment extends Fragment {
     /**
      * Private Button for the {@link ScoreFragment} class
      */
-    private Button mRedoButton;
+    private FloatingActionButton mRedoButton;
 
     /**
      * Private Button for to email a professor you score
@@ -87,7 +89,7 @@ public class ScoreFragment extends Fragment {
         this.mScoreTextView.setText(builder.toString());
 
         //set the mRedoButton to a new Button
-        this.mRedoButton = (Button) view.findViewById(R.id.redo_quiz);
+        this.mRedoButton = (FloatingActionButton) view.findViewById(R.id.redo_quiz);
 
         //set the onClickListener for the mRedoButton
         this.mRedoButton.setOnClickListener(new View.OnClickListener() {

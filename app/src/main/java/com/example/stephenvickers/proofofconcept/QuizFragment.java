@@ -2,12 +2,17 @@ package com.example.stephenvickers.proofofconcept;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -17,6 +22,11 @@ import android.widget.Toast;
 
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ui.AppCompatBase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
 import java.io.Serializable;
@@ -30,6 +40,8 @@ import java.util.*;
 public class QuizFragment extends Fragment {
 
     private static final String TAG = "QuizFragment";
+
+    private static final int RC_SIGN_IN = 1;
 
     /**
      * Variable to hold a {@link Questions} for the Fragment
@@ -72,22 +84,67 @@ public class QuizFragment extends Fragment {
      */
     private boolean isCorrectChoice;
 
+    /**
+     * Private int to hold the number of Answers for the currend {@link QuizFragment#mQuestion}
+     */
     private int mNumberOfAnswers;
 
+    /**
+     * private int for the number of questions in the {@link QuizFragment}
+     */
     private int mQuestionNumber;
 
+    /**
+     * Private static string for the Question_List of the {@link QuizFragment}
+     */
     private static final String QUESTION_LIST = "QuestionList";
 
+    /**
+     * Private static string for the Current_Question of the {@link QuizFragment}
+     */
     private static final String CURRENT_QUESTION = "CurrentQuestion";
 
+    /**
+     * Private static string for the Number of questions correct of the {@link QuizFragment}
+     */
     private static final String NUMBER_CORRECT = "NumberCorrect";
 
+    /**
+     * Private static int for the text size for the answers of the {@link Questions}
+     * for the {@link QuizFragment}
+     */
     private static final int TEXT_SIZE = 14;
 
+    /**
+     * Private reference to the {@link FirebaseAuth}
+     * Reference calls back to the Firebase Authentication
+     */
+    private FirebaseAuth mFirebaseAuth;
+
+    /**
+     * Private reference to the {@link FirebaseAuth.AuthStateListener}
+     * Makes a call back to Firebase Authentication to get the AuthStateListener
+     * If AuthStateListener in nil, or changes it fires off the Login Screen
+     */
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    /**
+     * Private reverence to a {@link View} to make a new view for the {@link QuizFragment}
+     */
     private View mView;
 
+    /**
+     * Default constructor for the {@link QuizFragment} Class
+     */
     public QuizFragment(){}
 
+    /**
+     * Public method to make a new instance of the {@link QuizFragment} class
+     *
+     * @param bundle    A {@link Bundle} reference that is passed into the method to
+     *                  get the new parameters for the {@link QuizFragment#newInstance(Bundle)}
+     * @return          Return a new reference to the {@link QuizFragment} class
+     */
     public static QuizFragment newInstance(Bundle bundle){
         QuizFragment quiz = new QuizFragment();
         quiz.setArguments(bundle);
@@ -95,9 +152,9 @@ public class QuizFragment extends Fragment {
         return quiz;
     }
 
-
-
-
+    /**
+     * @Override of the {@link Fragment#onPause()} method for the {@link QuizFragment}
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -110,9 +167,18 @@ public class QuizFragment extends Fragment {
         bundle.putInt(NUMBER_CORRECT, this.mNumberRight);
         Log.i(TAG, "this.mNumberRight added to Bundle");
 
+        if (mAuthStateListener != null){
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+
 
     }
 
+    /**
+     * @Override of the {@link Fragment#onSaveInstanceState(Bundle)} for the {@link QuizFragment}
+     *
+     * @param outState  a reference of a {@link Bundle} that saves the parameters for the {@link QuizFragment} class
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -125,6 +191,12 @@ public class QuizFragment extends Fragment {
 
     }
 
+    /**
+     * @Overide of the {@link Fragment#onViewStateRestored(Bundle)} for the {@link QuizFragment} class
+     *
+     * @param savedInstanceState    a reference to a {@link Bundle} that holds the parameters to be
+     *                              passed to the new reference to of the {@link QuizFragment}
+     */
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
@@ -144,14 +216,20 @@ public class QuizFragment extends Fragment {
         }
     }
 
+    /**
+     * @Override of the {@link Fragment#onResume()} method for the {@link QuizFragment} class
+     * Loads the {@link QuizFragment#mAuthStateListener} when the {@link QuizFragment} class is called
+     */
     @Override
     public void onResume() {
 
         super.onResume();
 
+        this.mFirebaseAuth.addAuthStateListener(this.mAuthStateListener);
+
+
         if(getArguments() != null) {
-//            this.mQuestionsSet.clear();
-//            this.mQuestionsSet = (List<Questions>) getArguments().getSerializable(QUESTION_LIST);
+
             this.mQuestionNumber = getArguments().getInt(CURRENT_QUESTION);
             StringBuilder builder = new StringBuilder();
             builder.append(this.mQuestionNumber);
@@ -168,6 +246,8 @@ public class QuizFragment extends Fragment {
         }
 
     }
+
+
 
     /**
      * Called to have the fragment instantiate its user interface view.
@@ -197,7 +277,6 @@ public class QuizFragment extends Fragment {
         this.mCheckAnswerButton = (FloatingActionButton) this.mView.findViewById(R.id.check_answer);
         this.mQuestionsTextView = (TextView)this.mView.findViewById(R.id.question_text_view);
         this.mRadioGroup = (RadioGroup) this.mView.findViewById(R.id.answer_radial_group);
-//        this.mPrevButton = (Button) this.mView.findViewById(R.id.prev_button);
         this.mRadioGroup = (RadioGroup) this.mView.findViewById(R.id.answer_radial_group);
         this.mSpinner = (ProgressBar)this.mView.findViewById(R.id.progress_bar);
         this.mNextButton = (FloatingActionButton) this.mView.findViewById(R.id.next_button);
@@ -208,6 +287,34 @@ public class QuizFragment extends Fragment {
 
         //read the questions into the mQuestionSet
         this.readQuestions(this.mView);
+
+        this.mFirebaseAuth = FirebaseAuth.getInstance();
+
+        this.mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if(user != null){
+                    //user signed in
+                    Toast.makeText(getContext().getApplicationContext(), "Signed In", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    //user signed out
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setTheme(R.style.AppTheme)
+                                    .setProviders(
+                                            Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                                    .build(),
+                            RC_SIGN_IN
+                    );
+                }
+            }
+        };
+
 
         //return the view for the onCreateView
         return this.mView;
@@ -483,35 +590,6 @@ public class QuizFragment extends Fragment {
                     }
                 });
 
-//                //set an onClickedListener for the mPrevButton
-//                mPrevButton.setOnClickListener(new View.OnClickListener(){
-//
-//                    /**
-//                     * Override of the onClick method for the {@link QuizFragment#mPrevButton}
-//                     *
-//                     * @param view {@link View} reference to see if the button was clicked
-//                     */
-//                    @Override
-//                    public void onClick(final View view) {
-//
-//                        //clear the current check from the mRadioGroup if there is one
-//                        mRadioGroup.clearCheck();
-//
-//                        //remove all the old RadioButton answers from the mRadioGroup
-//                        mRadioGroup.removeAllViews();
-//
-//                        //decrease the question
-//                        decreaseQuestionNumber();
-//
-//                        //set the current mQuestion to the right mQuestionSet number
-//                        setQuestions();
-//
-//                        //setup the current mQuestion
-//                        //set the mQuestionTextView and  the answers to mRadioGroup
-//                        setupQuestion(view);
-//                    }
-//                });
-
                 //set an onClickedListener for the mNextButton
                 mNextButton.setOnClickListener(new View.OnClickListener() {
 
@@ -544,6 +622,8 @@ public class QuizFragment extends Fragment {
                         setupQuestion(view);
                     }
                 });
+
+
 
             }
 
